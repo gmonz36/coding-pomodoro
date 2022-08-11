@@ -185,6 +185,7 @@ class PomodoroManager {
 	private _statusBarText: StatusBarItem;
 	private _statusBarStartButton: StatusBarItem;
 	private _statusBarPauseButton: StatusBarItem;
+    private _statusBarResetButton: StatusBarItem;
 
 	constructor(public workTime: number = 25, public pauseTime: number = 5) {
 		// create status bar items
@@ -202,6 +203,11 @@ class PomodoroManager {
 			this._statusBarPauseButton.text = "$(primitive-square)";
 			this._statusBarPauseButton.command = "extension.pausePomodoro";
 			this._statusBarPauseButton.tooltip = "Pause Pomodoro";
+
+			this._statusBarResetButton = window.createStatusBarItem(StatusBarAlignment.Left);
+			this._statusBarResetButton.text = "$(debug-restart)";
+			this._statusBarResetButton.command = "extension.resetPomodoro";
+			this._statusBarResetButton.tooltip = "Reset Pomodoro";
 
 		this.reset();
 		this.draw();
@@ -247,11 +253,15 @@ class PomodoroManager {
 
 		this._statusBarText.text = timerPart + this.currentState + pomodoroNumberPart;
 
-		if (this.currentPomodoro.status === PomodoroStatus.None ||
-			this.currentPomodoro.status === PomodoroStatus.Paused) {
+		if (this.currentPomodoro.status === PomodoroStatus.None) {
 			this._statusBarStartButton.show();
 			this._statusBarPauseButton.hide();
-		}
+            this._statusBarResetButton.hide();
+		} else if (this.currentPomodoro.status === PomodoroStatus.Paused) {
+			this._statusBarStartButton.show();
+			this._statusBarPauseButton.hide();
+            this._statusBarResetButton.show();
+        }
 		else {
 			this._statusBarStartButton.hide();
 			this._statusBarPauseButton.show();
@@ -296,6 +306,7 @@ class PomodoroManager {
 		this._statusBarText.dispose();
 		this._statusBarStartButton.dispose();
 		this._statusBarPauseButton.dispose();
+        this._statusBarResetButton.dispose();
 	}
 }
 
