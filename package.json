@@ -13,6 +13,7 @@
     "onStartupFinished"
   ],
   "main": "./dist/extension.js",
+	"icon": "icon.png",
   "contributes": {
     "commands": [
       {
