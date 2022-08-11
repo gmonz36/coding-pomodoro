@@ -18,5 +18,6 @@ For example if there is an image subfolder under your extension project workspac
 
 Coming soon ...
 
+## Useful links
 
-
+- Building and installing extension locally: https://code.visualstudio.com/api/working-with-extensions/publishing-extension

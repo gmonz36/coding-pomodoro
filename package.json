@@ -55,10 +55,10 @@
     "Timer",
     "Task"
   ],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/gmonz36/coding-pomodoro.git"
-	},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gmonz36/coding-pomodoro.git"
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",

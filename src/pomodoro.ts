@@ -13,7 +13,7 @@ const time = {
   pomodoro: 25,
   shortbreak: 5,
   second: 1000,
-  minute: 60
+  minute: 60,
 };
 
 class Timer {
@@ -22,7 +22,10 @@ class Timer {
     return this._timerId !== null;
   }
 
-  constructor(public currentTime: number = 0, public interval: number = time.second) {
+  constructor(
+    public currentTime: number = 0,
+    public interval: number = time.second
+  ) {
     this._timerId = null;
   }
 
@@ -186,7 +189,10 @@ class PomodoroManager {
   private _statusBarPauseButton: StatusBarItem;
   private _statusBarResetButton: StatusBarItem;
 
-  constructor(public workTime: number = time.pomodoro, public pauseTime: number = time.shortbreak) {
+  constructor(
+    public workTime: number = time.pomodoro,
+    public pauseTime: number = time.shortbreak
+  ) {
     // create status bar items
     this._statusBarText = window.createStatusBarItem(StatusBarAlignment.Left);
     this._statusBarText.show();
