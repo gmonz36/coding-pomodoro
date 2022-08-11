@@ -3,8 +3,8 @@
 import * as vscode from "vscode";
 import PomodoroManager from "./pomodoro";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+// this method is called when the extension is activated
+// the extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration("pomodoro");
   const pomodoroManager = new PomodoroManager(
