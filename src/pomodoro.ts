@@ -1,17 +1,17 @@
 import { StatusBarAlignment, StatusBarItem, window } from "vscode";
 
 enum PomodoroStatus {
-  None,
-  Work,
-  Rest,
-  Paused,
-  Break,
-  Done,
+  none,
+  work,
+  rest,
+  paused,
+  break,
+  done,
 }
 
 const time = {
   pomodoro: 25,
-  shortBreak: 5,
+  shortbreak: 5,
   second: 1000,
   minute: 60
 };
@@ -43,7 +43,7 @@ class Timer {
   }
 
   public stop() {
-    if (this._timerId != null) {
+    if (this._timerId !== null) {
       clearInterval(this._timerId);
     }
 
@@ -57,7 +57,7 @@ class Timer {
 
 class Pomodoro {
   // properties
-  private _status: PomodoroStatus = PomodoroStatus.None;
+  private _status: PomodoroStatus = PomodoroStatus.none;
 
   public get status() {
     return this._status;
@@ -77,34 +77,34 @@ class Pomodoro {
 
   constructor(
     public workTime: number = time.pomodoro * time.minute,
-    public pauseTime: number = time.shortBreak * time.minute
+    public pauseTime: number = time.shortbreak * time.minute
   ) {
     this.workTime = Math.floor(this.workTime);
     this.pauseTime = Math.floor(this.pauseTime);
 
     this._timer = new Timer();
-    this.status = PomodoroStatus.None;
+    this.status = PomodoroStatus.none;
   }
 
   // private methods
   private done() {
     this.stop();
-    this.status = PomodoroStatus.Done;
+    this.status = PomodoroStatus.done;
   }
 
   private resetTimer(status: PomodoroStatus) {
-    if (status === PomodoroStatus.Work) {
+    if (status === PomodoroStatus.work) {
       this.timer.reset(this.workTime);
     }
-    if (status === PomodoroStatus.Rest) {
+    if (status === PomodoroStatus.rest) {
       this.timer.reset(this.pauseTime);
     }
   }
 
   // public methods
-  public start(status: PomodoroStatus = PomodoroStatus.Work) {
-    if (status === PomodoroStatus.Work || status === PomodoroStatus.Rest) {
-      if (this.status !== PomodoroStatus.Paused) {
+  public start(status: PomodoroStatus = PomodoroStatus.work) {
+    if (status === PomodoroStatus.work || status === PomodoroStatus.rest) {
+      if (this.status !== PomodoroStatus.paused) {
         this.resetTimer(status);
       }
 
@@ -113,10 +113,10 @@ class Pomodoro {
       this._timer.start(() => {
         // stop the timer if no second left
         if (this.timer.currentTime <= 0) {
-          if (this.status === PomodoroStatus.Work) {
-            window.showInformationMessage("Work done! Take a break.");
-            this.start(PomodoroStatus.Rest);
-          } else if (this.status === PomodoroStatus.Rest) {
+          if (this.status === PomodoroStatus.work) {
+            window.showInformationMessage("work done! Take a break.");
+            this.start(PomodoroStatus.rest);
+          } else if (this.status === PomodoroStatus.rest) {
             window.showInformationMessage("Pause is over.");
             this.done();
           }
@@ -133,12 +133,12 @@ class Pomodoro {
 
   public pause() {
     this.stop();
-    this.status = PomodoroStatus.Paused;
+    this.status = PomodoroStatus.paused;
   }
 
   public reset() {
     this.stop();
-    this.status = PomodoroStatus.None;
+    this.status = PomodoroStatus.none;
     this._timer.currentTime = this.workTime;
   }
 
@@ -148,7 +148,7 @@ class Pomodoro {
 
   public dispose() {
     this.stop();
-    this.status = PomodoroStatus.None;
+    this.status = PomodoroStatus.none;
   }
 }
 
@@ -163,13 +163,13 @@ class PomodoroManager {
 
   public get currentState() {
     switch (this.currentPomodoro.status) {
-      case PomodoroStatus.Work:
+      case PomodoroStatus.work:
         return " - work";
-      case PomodoroStatus.Rest:
+      case PomodoroStatus.rest:
         return " - rest";
-      case PomodoroStatus.Paused:
+      case PomodoroStatus.paused:
         return " - paused";
-      case PomodoroStatus.Break:
+      case PomodoroStatus.break:
         return " - break";
       default:
         return "";
@@ -186,7 +186,7 @@ class PomodoroManager {
   private _statusBarPauseButton: StatusBarItem;
   private _statusBarResetButton: StatusBarItem;
 
-  constructor(public workTime: number = time.pomodoro, public pauseTime: number = time.shortBreak) {
+  constructor(public workTime: number = time.pomodoro, public pauseTime: number = time.shortbreak) {
     // create status bar items
     this._statusBarText = window.createStatusBarItem(StatusBarAlignment.Left);
     this._statusBarText.show();
@@ -219,7 +219,7 @@ class PomodoroManager {
   // private methods
   private update() {
     // handle launch of the next Pomodoro
-    if (this.currentPomodoro.status === PomodoroStatus.Done) {
+    if (this.currentPomodoro.status === PomodoroStatus.done) {
       this._pomodoroIndex++;
 
       if (!this.isSessionFinished) {
@@ -231,7 +231,7 @@ class PomodoroManager {
   private draw() {
     if (this.isSessionFinished) {
       // show text when all Pomodoro sessions are over
-      this._statusBarText.text = "Restart session?";
+      this._statusBarText.text = "restart session?";
       this._statusBarStartButton.show();
       this._statusBarPauseButton.hide();
 
@@ -269,11 +269,11 @@ class PomodoroManager {
     this._statusBarText.text =
       timerPart + this.currentState + pomodoroNumberPart;
 
-    if (this.currentPomodoro.status === PomodoroStatus.None) {
+    if (this.currentPomodoro.status === PomodoroStatus.none) {
       this._statusBarStartButton.show();
       this._statusBarPauseButton.hide();
       this._statusBarResetButton.hide();
-    } else if (this.currentPomodoro.status === PomodoroStatus.Paused) {
+    } else if (this.currentPomodoro.status === PomodoroStatus.paused) {
       this._statusBarStartButton.show();
       this._statusBarPauseButton.hide();
       this._statusBarResetButton.show();

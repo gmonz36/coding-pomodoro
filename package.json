@@ -13,7 +13,6 @@
     "*"
   ],
   "main": "./dist/extension.js",
-  "icon": "tomato.svg",
   "contributes": {
     "commands": [
       {
