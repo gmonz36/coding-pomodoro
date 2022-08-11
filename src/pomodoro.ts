@@ -286,6 +286,7 @@ class PomodoroManager {
     } else {
       this._statusBarStartButton.hide();
       this._statusBarPauseButton.show();
+      this._statusBarResetButton.show();
     }
 
     this._statusBarText.show();
