@@ -9,12 +9,11 @@ enum PomodoroStatus {
   Done,
 }
 
-const timer = {
+const time = {
   pomodoro: 25,
   shortBreak: 5,
-  longBreak: 15,
-  longBreakInterval: 4,
   second: 1000,
+  minute: 60
 };
 
 class Timer {
@@ -23,7 +22,7 @@ class Timer {
     return this._timerId !== null;
   }
 
-  constructor(public currentTime: number = 0, public interval: number = 1000) {
+  constructor(public currentTime: number = 0, public interval: number = time.second) {
     this._timerId = null;
   }
 
@@ -52,7 +51,7 @@ class Timer {
   }
 
   private tick() {
-    this.currentTime -= this.interval / 1000;
+    this.currentTime -= this.interval / time.second;
   }
 }
 
@@ -77,8 +76,8 @@ class Pomodoro {
   public onTick: (() => void) | undefined;
 
   constructor(
-    public workTime: number = 25 * 60,
-    public pauseTime: number = 5 * 60
+    public workTime: number = time.pomodoro * time.minute,
+    public pauseTime: number = time.shortBreak * time.minute
   ) {
     this.workTime = Math.floor(this.workTime);
     this.pauseTime = Math.floor(this.pauseTime);
@@ -187,7 +186,7 @@ class PomodoroManager {
   private _statusBarPauseButton: StatusBarItem;
   private _statusBarResetButton: StatusBarItem;
 
-  constructor(public workTime: number = 25, public pauseTime: number = 5) {
+  constructor(public workTime: number = time.pomodoro, public pauseTime: number = time.shortBreak) {
     // create status bar items
     this._statusBarText = window.createStatusBarItem(StatusBarAlignment.Left);
     this._statusBarText.show();
